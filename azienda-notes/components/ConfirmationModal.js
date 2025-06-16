@@ -19,13 +19,13 @@ const ConfirmationModal = ({ visible, title, message, onConfirm, onCancel }) => 
               style={[styles.button, styles.buttonCancel]}
               onPress={onCancel}
             >
-              <Text style={styles.textStyle}>Annuler</Text>
+              <Text style={styles.textStyle}>Cancel</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={[styles.button, styles.buttonConfirm]}
               onPress={onConfirm}
             >
-              <Text style={styles.textStyle}>Supprimer</Text>
+              <Text style={styles.textStyle}>Delete</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0.5)', // Fond semi-transparent
+    backgroundColor: 'rgba(0,0,0,0.5)', // Semi-transparent background
   },
   modalView: {
     margin: 20,
