@@ -83,6 +83,20 @@ const FormScreen = ({ navigation, route }) => { // Main component for the form s
     }
   };
 
+  // Function to get the display label for importance in English
+  const getImportanceLabel = (importance) => {
+    switch (importance) {
+      case 'Important':
+        return 'Important';
+      case 'Normal':
+        return 'Normal';
+      case 'Low':
+        return 'Low';
+      default:
+        return importance;
+    }
+  };
+
   return (
     <View style={styles.container}> {/* Main container for the form */}
       <View style={styles.formBox}> {/* White box around the form */}
@@ -109,7 +123,7 @@ const FormScreen = ({ navigation, route }) => { // Main component for the form s
         <View style={styles.importanceLabelContainer}> {/* Row for importance label and value */}
           <Text style={styles.label}>Importance: </Text>
           <Text style={[styles.importanceValue, { color: getImportanceColor(importance) }]}> {/* Importance value in color */}
-            {importance}
+            {getImportanceLabel(importance)}
           </Text>
         </View>
         <View style={styles.importanceButtons}> {/* Buttons to select importance */}

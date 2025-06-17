@@ -4,14 +4,16 @@
 import { useFocusEffect } from '@react-navigation/native';
 import React, { useCallback, useState } from 'react';
 import { Dimensions, FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { breakpoints, getResponsiveValue, spacing, typography } from '../styles/responsive';
 import { getNotes } from '../utils/storage';
 
 // Get the width of the device's screen
 const { width } = Dimensions.get('window');
 // Set the maximum width for the white card container
-const CARD_CONTAINER_WIDTH = width > 900 ? 900 : width - 40;
-// Calculate the width of each note card (2 columns)
-const itemWidth = (CARD_CONTAINER_WIDTH - 40) / 2;
+const CARD_CONTAINER_WIDTH = width > getResponsiveValue({mobile: 350, tablet: 700, desktop: 900, extraLarge: 1200}) ? getResponsiveValue({mobile: 350, tablet: 700, desktop: 900, extraLarge: 1200}) : width - 40;
+// Calculate the width of each note card (responsive columns)
+const numColumns = width >= breakpoints.desktopLarge ? 3 : width >= breakpoints.tabletLarge ? 2 : 1;
+const itemWidth = (CARD_CONTAINER_WIDTH - 40) / numColumns;
 
 // Function to shorten long text with ...
 const truncate = (text, maxLength) => {
@@ -105,13 +107,13 @@ const DashboardScreen = ({ navigation }) => {
         {notes.length === 0 ? (
           <Text style={styles.noNotesText}>No notes created yet. Click ADD to create one!</Text>
         ) : (
-          // List of notes in 2 columns
+          // List of notes in responsive columns
           <FlatList
             data={notes}
             renderItem={renderItem}
             keyExtractor={item => item.id}
-            numColumns={2}
-            columnWrapperStyle={styles.row}
+            numColumns={numColumns}
+            columnWrapperStyle={numColumns > 1 ? styles.row : null}
             contentContainerStyle={styles.notesList}
             showsVerticalScrollIndicator={false}
           />
@@ -128,22 +130,22 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFD4CA', // Light pink background
     alignItems: 'center',
     justifyContent: 'flex-start',
-    paddingTop: 40,
+    paddingTop: getResponsiveValue(spacing.margin),
   },
   addButtonContainer: {
-    marginBottom: 30,
+    marginBottom: getResponsiveValue(spacing.margin),
     alignItems: 'center',
     width: '100%',
   },
   cardContainer: {
     backgroundColor: '#fff', // White background for notes area
     borderRadius: 10,
-    padding: 40,
+    padding: getResponsiveValue(spacing.padding),
     width: CARD_CONTAINER_WIDTH,
     minHeight: 300,
     alignItems: 'center',
-    marginVertical: 40,
-    marginHorizontal: 90,
+    marginVertical: getResponsiveValue(spacing.margin),
+    marginHorizontal: getResponsiveValue(spacing.margin),
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
@@ -151,58 +153,58 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   cardTitle: {
-    fontSize: 24,
+    fontSize: getResponsiveValue(typography.h1),
     color: '#FFD4CA',
     fontWeight: 'bold',
-    marginBottom: 20,
+    marginBottom: getResponsiveValue(spacing.margin),
     textAlign: 'center',
     fontFamily: 'Montserrat_700Bold',
   },
   noNotesText: {
     textAlign: 'center',
-    marginTop: 30,
-    fontSize: 16,
+    marginTop: getResponsiveValue(spacing.margin),
+    fontSize: getResponsiveValue(typography.body),
     color: '#FFD4CA',
     fontFamily: 'Montserrat_400Regular',
   },
   notesList: {
-    paddingBottom: 10,
+    paddingBottom: getResponsiveValue(spacing.margin),
     alignItems: 'center',
   },
   row: {
     justifyContent: 'center',
-    marginBottom: 20,
+    marginBottom: getResponsiveValue(spacing.margin),
   },
   noteCard: {
-    padding: 24,
+    padding: getResponsiveValue(spacing.padding),
     borderRadius: 6,
     elevation: 2,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.2,
     shadowRadius: 2,
-    marginHorizontal: 30,
+    marginHorizontal: getResponsiveValue(spacing.margin),
     marginBottom: 10,
     maxWidth: 400,
     width: '100%',
     minHeight: 220, // Minimum height for better content display
   },
   noteTitle: {
-    fontSize: 22,
+    fontSize: getResponsiveValue(typography.h2),
     fontWeight: 'bold',
     color: '#fff',
     marginBottom: 4,
     fontFamily: 'Montserrat_700Bold',
   },
   noteContent: {
-    fontSize: 16,
+    fontSize: getResponsiveValue(typography.body),
     color: '#fff',
     marginBottom: 6,
     flexGrow: 1,
     fontFamily: 'Montserrat_400Regular',
   },
   noteImportance: {
-    fontSize: 18,
+    fontSize: getResponsiveValue(typography.body),
     fontWeight: 'bold',
     color: '#fff',
     marginBottom: 4,
@@ -218,18 +220,18 @@ const styles = StyleSheet.create({
     borderTopColor: 'rgba(255, 255, 255, 0.2)', // Subtle line
   },
   dateTimeText: {
-    fontSize: 15,
+    fontSize: getResponsiveValue(typography.small),
     color: '#fff',
     opacity: 0.9,
     fontFamily: 'Montserrat_400Regular',
   },
   dashboardTitle: {
     color: '#456990',
-    fontSize: 32,
+    fontSize: getResponsiveValue(typography.h1),
     fontWeight: 'bold',
     textAlign: 'center',
-    marginBottom: 20,
-    marginTop: 10,
+    marginBottom: getResponsiveValue(spacing.margin),
+    marginTop: getResponsiveValue(spacing.margin),
     fontFamily: 'Montserrat_700Bold',
   },
   addButton: {

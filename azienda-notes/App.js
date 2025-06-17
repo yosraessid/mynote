@@ -1,5 +1,5 @@
 // App.js
-// This is the main entry point of the app. It sets up navigation, fonts, and splash screen.
+// Main entry point of the app. Sets up navigation, fonts, and splash screen.
 
 import { Montserrat_400Regular, Montserrat_700Bold, useFonts } from '@expo-google-fonts/montserrat'; // Import Montserrat fonts
 import AsyncStorage from '@react-native-async-storage/async-storage'; // Import AsyncStorage for local storage
@@ -23,7 +23,7 @@ export default function App() { // Main App component
     Montserrat_700Bold,
   });
 
-  useEffect(() => { // Effect to restore navigation state from storage
+  useEffect(() => { // Restore navigation state from storage
     const restoreState = async () => {
       try {
         const savedStateString = await AsyncStorage.getItem(PERSISTENCE_KEY); // Get saved navigation state
@@ -38,7 +38,7 @@ export default function App() { // Main App component
     restoreState(); // Call the function
   }, []);
 
-  useEffect(() => { // Effect to hide splash screen when fonts and app are ready
+  useEffect(() => { // Hide splash screen when fonts and app are ready
     if (fontsLoaded && isReady) {
       SplashScreen.hideAsync(); // Hide splash screen
     }
@@ -55,7 +55,7 @@ export default function App() { // Main App component
         AsyncStorage.setItem(PERSISTENCE_KEY, JSON.stringify(state)) // Save navigation state on change
       }
     >
-      <Stack.Navigator initialRouteName="Dashboard"> {/* Stack of screens */}
+      <Stack.Navigator initialRouteName="Dashboard">
         <Stack.Screen 
           name="Dashboard" 
           component={DashboardScreen} 
@@ -63,10 +63,10 @@ export default function App() { // Main App component
             title: 'Dashboard', // Title in the header
             headerTitleAlign: 'left', // Align title to the left
             headerTitleStyle: {
-              color: '#456990', // Blue color
-              fontSize: 22, // Title size
-              fontWeight: 'bold', // Bold text
-              fontFamily: 'Montserrat_700Bold', // Font
+              color: '#456990',
+              fontSize: 22,
+              fontWeight: 'bold',
+              fontFamily: 'Montserrat_700Bold',
             },
             headerLeft: () => null, // Remove back arrow
           }}
@@ -78,10 +78,10 @@ export default function App() { // Main App component
             title: 'Form', // Title in the header
             headerTitleAlign: 'left', // Align title to the left
             headerTitleStyle: {
-              color: '#456990', // Blue color
-              fontSize: 22, // Title size
-              fontWeight: 'bold', // Bold text
-              fontFamily: 'Montserrat_700Bold', // Font
+              color: '#456990',
+              fontSize: 22,
+              fontWeight: 'bold',
+              fontFamily: 'Montserrat_700Bold',
             },
             headerTintColor: '#456990', // Color for back arrow
           }}
@@ -93,9 +93,9 @@ export default function App() { // Main App component
             headerShown: true, // Show header
             headerTitle: 'Note', // Title in the header
             headerTitleStyle: {
-              color: '#456990', // Blue color
-              fontSize: 24, // Title size
-              fontFamily: 'Montserrat_700Bold', // Font
+              color: '#456990',
+              fontSize: 24,
+              fontFamily: 'Montserrat_700Bold',
             },
             headerStyle: {
               backgroundColor: '#FFFFFF', // White background for header
