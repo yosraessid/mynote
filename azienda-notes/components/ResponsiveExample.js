@@ -1,31 +1,34 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { getResponsiveValue, spacing, typography } from '../styles/responsive';
+// ResponsiveExample.js
+// This component shows how to use responsive styles in React Native.
 
-const ResponsiveExample = () => {
+import React from 'react'; // Import React
+import { StyleSheet, Text, View } from 'react-native'; // Import React Native components
+import { getResponsiveValue, spacing, typography } from '../styles/responsive'; // Import responsive helpers
+
+const ResponsiveExample = () => { // Main component
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Titre Responsive</Text>
+    <View style={styles.container}> {/* Main container with responsive padding and margin */}
+      <Text style={styles.title}>Titre Responsive</Text> {/* Responsive title */}
       <Text style={styles.body}>
         Ce texte s'adapte automatiquement à la taille de l'écran
-      </Text>
+      </Text> {/* Responsive body text */}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    padding: getResponsiveValue(spacing.padding),
-    margin: getResponsiveValue(spacing.margin),
+    padding: getResponsiveValue(spacing.padding), // Responsive padding
+    margin: getResponsiveValue(spacing.margin), // Responsive margin
   },
   title: {
-    fontSize: getResponsiveValue(typography.h1),
-    fontWeight: 'bold',
-    marginBottom: getResponsiveValue(spacing.margin),
+    fontSize: getResponsiveValue(typography.h1), // Responsive title size
+    fontWeight: 'bold', // Bold text
+    marginBottom: getResponsiveValue(spacing.margin), // Responsive space below
   },
   body: {
-    fontSize: getResponsiveValue(typography.body),
+    fontSize: getResponsiveValue(typography.body), // Responsive body text size
   },
 });
 
-export default ResponsiveExample; 
+export default ResponsiveExample; // Export the component 
