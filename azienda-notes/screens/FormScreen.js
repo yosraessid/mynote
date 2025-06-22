@@ -104,7 +104,7 @@ const FormScreen = ({ navigation, route }) => { // Main component for the form s
         <Text style={styles.label}>Title</Text> {/* Label for the title field */}
         <TextInput
           style={styles.input}
-          placeholder="Titre de la note"
+          placeholder="Title of the note"
           placeholderTextColor="#A0A0A0"
           value={title}
           onChangeText={setTitle}
@@ -113,7 +113,7 @@ const FormScreen = ({ navigation, route }) => { // Main component for the form s
         <Text style={styles.label}>Content</Text> {/* Label for the content field */}
         <TextInput
           style={[styles.input, styles.contentInput]}
-          placeholder="Contenu de la note"
+          placeholder="Content of the note"
           placeholderTextColor="#A0A0A0"
           value={content}
           onChangeText={setContent}
