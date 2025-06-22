@@ -1,0 +1,167 @@
+RELATIONS DU SCHÉMA - APPLICATION "MYNOTE"
+===========================================
+
+REPRÉSENTATION DES RELATIONS AVEC FLÈCHES NORMALISÉES
+
+STRUCTURE DE BASE
+=================
+
+TABLE NOTES (Entité Centrale)
+- id (Clé Primaire)
+- title
+- content
+- dateTime
+- importance
+- user_id (Clé Étrangère)
+- category_id (Clé Étrangère)
+
+TABLE USERS
+- id (Clé Primaire)
+- username
+- email
+- password_hash
+- full_name
+- is_active
+- last_login
+
+TABLE IMPORTANCE_LEVELS
+- id (Clé Primaire)
+- code
+- name
+- description
+- color_hex
+- display_order
+- is_active
+
+TABLE CATEGORIES
+- id (Clé Primaire)
+- name
+- description
+- color_hex
+- icon_name
+- display_order
+- is_active
+
+RELATIONS AVEC FLÈCHES NORMALISÉES
+==================================
+
+RELATION 1 : NOTES → USERS
+--------------------------
+NOTES ────► USERS
+user_id ────► id
+
+Type : Many-to-One (Plusieurs vers Un)
+- Plusieurs notes peuvent appartenir à un seul utilisateur
+- Une note appartient à un seul utilisateur (ou aucun)
+- Clé étrangère : user_id dans NOTES référence id dans USERS
+
+RELATION 2 : NOTES → CATEGORIES
+-------------------------------
+NOTES ────► CATEGORIES
+category_id ────► id
+
+Type : Many-to-One (Plusieurs vers Un)
+- Plusieurs notes peuvent appartenir à une seule catégorie
+- Une note appartient à une seule catégorie (ou aucune)
+- Clé étrangère : category_id dans NOTES référence id dans CATEGORIES
+
+RELATION 3 : NOTES → IMPORTANCE_LEVELS
+--------------------------------------
+NOTES ────► IMPORTANCE_LEVELS
+importance ────► code
+
+Type : Many-to-One (Plusieurs vers Un)
+- Plusieurs notes peuvent avoir le même niveau de priorité
+- Une note a un seul niveau de priorité (obligatoire)
+- Relation via ENUM dans NOTES correspondant aux codes dans IMPORTANCE_LEVELS
+
+DIAGRAMME VISUEL DES RELATIONS
+==============================
+
+                    NOTES
+                    │
+                    │ user_id
+                    │
+                    ▼
+                  USERS
+                    ▲
+                    │
+                    │ (1 utilisateur peut avoir plusieurs notes)
+
+                    NOTES
+                    │
+                    │ category_id
+                    │
+                    ▼
+                CATEGORIES
+                    ▲
+                    │
+                    │ (1 catégorie peut contenir plusieurs notes)
+
+                    NOTES
+                    │
+                    │ importance
+                    │
+                    ▼
+            IMPORTANCE_LEVELS
+                    ▲
+                    │
+                    │ (1 niveau peut être utilisé par plusieurs notes)
+
+RÉSUMÉ DES CARDINALITÉS
+=======================
+
+NOTES vers USERS : N:1 (Plusieurs notes vers un utilisateur)
+NOTES vers CATEGORIES : N:1 (Plusieurs notes vers une catégorie)
+NOTES vers IMPORTANCE_LEVELS : N:1 (Plusieurs notes vers un niveau)
+
+CONTRAINTES DE RÉFÉRENCE
+========================
+
+1. FOREIGN KEY NOTES → USERS
+   - user_id dans NOTES référence id dans USERS
+   - ON DELETE SET NULL (si utilisateur supprimé, user_id devient NULL)
+   - ON UPDATE CASCADE (si id utilisateur change, user_id change aussi)
+
+2. FOREIGN KEY NOTES → CATEGORIES
+   - category_id dans NOTES référence id dans CATEGORIES
+   - ON DELETE SET NULL (si catégorie supprimée, category_id devient NULL)
+   - ON UPDATE CASCADE (si id catégorie change, category_id change aussi)
+
+3. ENUM CONSTRAINT NOTES → IMPORTANCE_LEVELS
+   - importance dans NOTES doit être 'Important', 'Normal', ou 'Low'
+   - Correspond aux codes dans IMPORTANCE_LEVELS
+
+INDEX POUR LES RELATIONS
+========================
+
+- INDEX sur user_id pour optimiser les jointures NOTES-USERS
+- INDEX sur category_id pour optimiser les jointures NOTES-CATEGORIES
+- INDEX sur importance pour optimiser les filtres par priorité
+- INDEX composites pour les requêtes fréquentes
+
+EXEMPLES DE REQUÊTES AVEC RELATIONS
+===================================
+
+1. Toutes les notes d'un utilisateur :
+   SELECT * FROM notes WHERE user_id = 1;
+
+2. Toutes les notes d'une catégorie :
+   SELECT * FROM notes WHERE category_id = 2;
+
+3. Toutes les notes importantes :
+   SELECT * FROM notes WHERE importance = 'Important';
+
+4. Notes avec informations utilisateur et catégorie :
+   SELECT n.*, u.username, c.name as category_name
+   FROM notes n
+   LEFT JOIN users u ON n.user_id = u.id
+   LEFT JOIN categories c ON n.category_id = c.id;
+
+5. Statistiques par utilisateur :
+   SELECT u.username, COUNT(n.id) as nombre_notes
+   FROM users u
+   LEFT JOIN notes n ON u.id = n.user_id
+   GROUP BY u.id, u.username;
+
+Cette structure de relations permet une organisation claire des données tout en maintenant l'intégrité référentielle de la base de données. 
